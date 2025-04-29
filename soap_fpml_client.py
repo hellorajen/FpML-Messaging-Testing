@@ -3,7 +3,16 @@ from xml.etree import ElementTree as ET
 
 def create_soap_envelope(fpml_payload):
     return f"""<?xml version="1.0"?>
-<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
+               xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
+    <soap:Header>
+        <wsse:Security>
+            <wsse:UsernameToken>
+                <wsse:Username>your_username</wsse:Username>
+                <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText">your_password</wsse:Password>
+            </wsse:UsernameToken>
+        </wsse:Security>
+    </soap:Header>
     <soap:Body>
         {fpml_payload}
     </soap:Body>
